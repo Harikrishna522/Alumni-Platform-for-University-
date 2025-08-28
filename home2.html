@@ -1,0 +1,968 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLRITM Alumni Association</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+        }
+        .hero-pattern {
+            background-color: #1e40af;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .alumni-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .tab-active {
+            color: #1e40af;
+            border-bottom: 2px solid #1e40af;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            transition: all 0.3s ease;
+        }
+        .sidebar-link {
+            transition: all 0.2s ease;
+        }
+        .sidebar-link:hover {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 3px solid #1e40af;
+        }
+        .sidebar-link.active {
+            background-color: rgba(30, 64, 175, 0.1);
+            border-left: 3px solid #1e40af;
+            color: #1e40af;
+            font-weight: 500;
+        }
+        .resource-card:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+        .mentor-card:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+        .modal {
+            transition: opacity 0.25s ease;
+        }
+        .modal-container {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <svg class="h-10 w-10 text-blue-800" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 14l9-5-9-5-9 5 9 5z"/>
+                            <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+                            <path d="M12 14l-6.16-3.422a12.083 12.083 0 00-.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 016.824-2.998 12.078 12.078 0 00-.665-6.479L12 14z"/>
+                        </svg>
+                        <span class="ml-2 text-xl font-bold text-gray-800">MLRITM Alumni</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#home" class="px-3 py-2 text-blue-800 font-medium hover:text-blue-600 transition">Home</a>
+                    <a href="#directory" class="px-3 py-2 text-gray-600 font-medium hover:text-blue-600 transition">Directory</a>
+                    <a href="#jobs" class="px-3 py-2 text-gray-600 font-medium hover:text-blue-600 transition">Jobs</a>
+                    <a href="#events" class="px-3 py-2 text-gray-600 font-medium hover:text-blue-600 transition">Events</a>
+                    <a href="#mentorship" class="px-3 py-2 text-gray-600 font-medium hover:text-blue-600 transition">Mentorship</a>
+                    <a href="#resources" class="px-3 py-2 text-gray-600 font-medium hover:text-blue-600 transition">Resources</a>
+                    <a href="#donate" class="px-3 py-2 text-gray-600 font-medium hover:text-blue-600 transition">Donate</a>
+                    <button id="login-btn-nav" class="ml-4 px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition">Login</button>
+                    <button id="register-btn-nav" class="px-4 py-2 bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200 transition">Register</button>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-800 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#home" class="block px-3 py-2 text-blue-800 font-medium">Home</a>
+                <a href="#directory" class="block px-3 py-2 text-gray-600 font-medium hover:text-blue-600">Directory</a>
+                <a href="#jobs" class="block px-3 py-2 text-gray-600 font-medium hover:text-blue-600">Jobs</a>
+                <a href="#events" class="block px-3 py-2 text-gray-600 font-medium hover:text-blue-600">Events</a>
+                <a href="#mentorship" class="block px-3 py-2 text-gray-600 font-medium hover:text-blue-600">Mentorship</a>
+                <a href="#resources" class="block px-3 py-2 text-gray-600 font-medium hover:text-blue-600">Resources</a>
+                <a href="#donate" class="block px-3 py-2 text-gray-600 font-medium hover:text-blue-600">Donate</a>
+                <div class="flex space-x-2 mt-3">
+                    <button id="login-btn-mobile" class="flex-1 px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700">Login</button>
+                    <button id="register-btn-mobile" class="flex-1 px-4 py-2 bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200">Register</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded-lg shadow-lg z-50 overflow-y-auto transform scale-95 transition-all duration-300">
+            <!-- Modal Content -->
+            <div class="modal-content py-4 text-left px-6">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center pb-3">
+                    <p class="text-2xl font-bold text-gray-800">Login</p>
+                    <button id="close-login-modal" class="modal-close cursor-pointer z-50">
+                        <svg class="fill-current text-gray-500 hover:text-gray-800" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Login Form -->
+                <form class="mt-4">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                            Email Address
+                        </label>
+                        <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" id="email" type="email" placeholder="your.email@example.com">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                            Password
+                        </label>
+                        <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" id="password" type="password" placeholder="••••••••">
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center">
+                            <input id="remember-me" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="remember-me" class="ml-2 block text-sm text-gray-700">
+                                Remember me
+                            </label>
+                        </div>
+                        <a href="#" class="text-sm text-blue-800 hover:text-blue-700">Forgot password?</a>
+                    </div>
+                    <div class="flex flex-col space-y-4">
+                        <button type="submit" class="w-full bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition">
+                            Sign In
+                        </button>
+                        <div class="flex items-center justify-center">
+                            <span class="text-gray-500 text-sm">or continue with</span>
+                        </div>
+                        <div class="flex space-x-4">
+                            <button type="button" class="flex-1 flex justify-center items-center bg-white hover:bg-gray-50 text-gray-700 font-semibold py-2 px-4 border border-gray-300 rounded shadow-sm transition">
+                                <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+                                </svg>
+                                Google
+                            </button>
+                            <button type="button" class="flex-1 flex justify-center items-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 border border-blue-600 rounded shadow-sm transition">
+                                <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M20.3,10.4h-8.2v3.3h4.8c-0.5,2.1-2.1,3.3-4.8,3.3c-2.9,0-5.3-2.4-5.3-5.3s2.4-5.3,5.3-5.3c1.3,0,2.5,0.5,3.5,1.3l2.5-2.5C16.3,3.5,14.2,2.7,12,2.7c-5,0-9,4-9,9s4,9,9,9c5.2,0,8.7-3.7,8.7-8.8C20.7,11.3,20.5,10.8,20.3,10.4z"/>
+                                </svg>
+                                LinkedIn
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-600">
+                        Don't have an account? 
+                        <a id="switch-to-register" href="#" class="text-blue-800 hover:text-blue-700 font-medium">Register</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-50">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+        
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded-lg shadow-lg z-50 overflow-y-auto transform scale-95 transition-all duration-300">
+            <!-- Modal Content -->
+            <div class="modal-content py-4 text-left px-6">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center pb-3">
+                    <p class="text-2xl font-bold text-gray-800">Register</p>
+                    <button id="close-register-modal" class="modal-close cursor-pointer z-50">
+                        <svg class="fill-current text-gray-500 hover:text-gray-800" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Register Form -->
+                <form class="mt-4">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="full-name">
+                            Full Name
+                        </label>
+                        <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" id="full-name" type="text" placeholder="John Doe">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="register-email">
+                            Email Address
+                        </label>
+                        <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" id="register-email" type="email" placeholder="your.email@example.com">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="graduation-year">
+                            Graduation Year
+                        </label>
+                        <select class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" id="graduation-year">
+                            <option value="">Select Year</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                            <option value="2019">2019</option>
+                            <option value="2018">2018</option>
+                            <option value="older">Before 2018</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="branch">
+                            Branch
+                        </label>
+                        <select class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" id="branch">
+                            <option value="">Select Branch</option>
+                            <option value="cse">Computer Science Engineering</option>
+                            <option value="ece">Electronics & Communication Engineering</option>
+                            <option value="eee">Electrical & Electronics Engineering</option>
+                            <option value="mech">Mechanical Engineering</option>
+                            <option value="civil">Civil Engineering</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="register-password">
+                            Password
+                        </label>
+                        <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" id="register-password" type="password" placeholder="••••••••">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm-password">
+                            Confirm Password
+                        </label>
+                        <input class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-blue-500" id="confirm-password" type="password" placeholder="••••••••">
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <input id="terms" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="terms" class="ml-2 block text-sm text-gray-700">
+                            I agree to the <a href="#" class="text-blue-800 hover:text-blue-700">Terms of Service</a> and <a href="#" class="text-blue-800 hover:text-blue-700">Privacy Policy</a>
+                        </label>
+                    </div>
+                    <div class="flex flex-col space-y-4">
+                        <button type="submit" class="w-full bg-blue-800 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition">
+                            Create Account
+                        </button>
+                    </div>
+                </form>
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-600">
+                        Already have an account? 
+                        <a id="switch-to-login" href="#" class="text-blue-800 hover:text-blue-700 font-medium">Login</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mentorship Section -->
+    <section id="mentorship" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-800">Mentorship Program</h2>
+                <p class="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
+                    Connect with experienced alumni for guidance or become a mentor to help others grow.
+                </p>
+            </div>
+            
+            <div class="mt-12 grid gap-8 md:grid-cols-2">
+                <!-- Become a Mentee -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="bg-blue-800 p-6 text-white">
+                        <h3 class="text-2xl font-bold">Find a Mentor</h3>
+                        <p class="mt-2 text-blue-100">
+                            Get guidance from experienced professionals in your field of interest.
+                        </p>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">I'm looking for guidance in</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Select Area of Interest</option>
+                                    <option value="career">Career Development</option>
+                                    <option value="technical">Technical Skills</option>
+                                    <option value="leadership">Leadership & Management</option>
+                                    <option value="entrepreneurship">Entrepreneurship</option>
+                                    <option value="higher-education">Higher Education</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Industry Preference</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Select Industry</option>
+                                    <option value="tech">Technology</option>
+                                    <option value="finance">Finance</option>
+                                    <option value="healthcare">Healthcare</option>
+                                    <option value="education">Education</option>
+                                    <option value="manufacturing">Manufacturing</option>
+                                    <option value="consulting">Consulting</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Preferred Meeting Frequency</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Select Frequency</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="biweekly">Bi-weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="quarterly">Quarterly</option>
+                                    <option value="asneeded">As needed</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Brief Message (Optional)</label>
+                                <textarea class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" rows="3" placeholder="Tell potential mentors about your goals and what you hope to learn..."></textarea>
+                            </div>
+                            <button class="w-full px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition">
+                                Find Mentors
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Become a Mentor -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="bg-blue-700 p-6 text-white">
+                        <h3 class="text-2xl font-bold">Become a Mentor</h3>
+                        <p class="mt-2 text-blue-100">
+                            Share your knowledge and experience to help fellow alumni and students.
+                        </p>
+                    </div>
+                    <div class="p-6">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">I can provide guidance in</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="flex items-center">
+                                        <input id="career-dev" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                        <label for="career-dev" class="ml-2 text-sm text-gray-700">Career Development</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input id="tech-skills" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                        <label for="tech-skills" class="ml-2 text-sm text-gray-700">Technical Skills</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input id="leadership" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                        <label for="leadership" class="ml-2 text-sm text-gray-700">Leadership</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input id="entrepreneurship" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                        <label for="entrepreneurship" class="ml-2 text-sm text-gray-700">Entrepreneurship</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Industry</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Select Your Industry</option>
+                                    <option value="tech">Technology</option>
+                                    <option value="finance">Finance</option>
+                                    <option value="healthcare">Healthcare</option>
+                                    <option value="education">Education</option>
+                                    <option value="manufacturing">Manufacturing</option>
+                                    <option value="consulting">Consulting</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Availability</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Select Availability</option>
+                                    <option value="1-2">1-2 hours per month</option>
+                                    <option value="3-5">3-5 hours per month</option>
+                                    <option value="6-10">6-10 hours per month</option>
+                                    <option value="flexible">Flexible</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Brief Bio</label>
+                                <textarea class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" rows="3" placeholder="Share your expertise and how you can help mentees..."></textarea>
+                            </div>
+                            <button class="w-full px-4 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-600 transition">
+                                Register as Mentor
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Featured Mentors -->
+            <div class="mt-16">
+                <h3 class="text-2xl font-bold text-gray-800 text-center mb-8">Featured Mentors</h3>
+                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                    <!-- Mentor 1 -->
+                    <div class="mentor-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 border border-gray-200">
+                        <div class="p-6 text-center">
+                            <div class="w-24 h-24 rounded-full bg-blue-100 mx-auto flex items-center justify-center">
+                                <svg class="w-16 h-16 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <h4 class="mt-4 text-xl font-semibold text-gray-800">Dr. Rajesh Kumar</h4>
+                            <p class="text-blue-800 font-medium">Class of 2005</p>
+                            <p class="mt-2 text-gray-600">CTO at TechSolutions</p>
+                            <div class="mt-3 flex justify-center space-x-2">
+                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">AI/ML</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Leadership</span>
+                            </div>
+                            <p class="mt-4 text-sm text-gray-600">
+                                Mentored 15+ professionals in technology leadership roles.
+                            </p>
+                            <button class="mt-4 px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition text-sm w-full">
+                                Request Mentorship
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Mentor 2 -->
+                    <div class="mentor-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 border border-gray-200">
+                        <div class="p-6 text-center">
+                            <div class="w-24 h-24 rounded-full bg-blue-100 mx-auto flex items-center justify-center">
+                                <svg class="w-16 h-16 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <h4 class="mt-4 text-xl font-semibold text-gray-800">Priya Mehta</h4>
+                            <p class="text-blue-800 font-medium">Class of 2008</p>
+                            <p class="mt-2 text-gray-600">Senior Manager at Amazon</p>
+                            <div class="mt-3 flex justify-center space-x-2">
+                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Product</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Career</span>
+                            </div>
+                            <p class="mt-4 text-sm text-gray-600">
+                                Specializes in product management and career transitions.
+                            </p>
+                            <button class="mt-4 px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition text-sm w-full">
+                                Request Mentorship
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Mentor 3 -->
+                    <div class="mentor-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 border border-gray-200">
+                        <div class="p-6 text-center">
+                            <div class="w-24 h-24 rounded-full bg-blue-100 mx-auto flex items-center justify-center">
+                                <svg class="w-16 h-16 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <h4 class="mt-4 text-xl font-semibold text-gray-800">Vikram Singh</h4>
+                            <p class="text-blue-800 font-medium">Class of 2010</p>
+                            <p class="mt-2 text-gray-600">Founder, InnovateTech</p>
+                            <div class="mt-3 flex justify-center space-x-2">
+                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Startup</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Finance</span>
+                            </div>
+                            <p class="mt-4 text-sm text-gray-600">
+                                Helps aspiring entrepreneurs build successful startups.
+                            </p>
+                            <button class="mt-4 px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition text-sm w-full">
+                                Request Mentorship
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Mentor 4 -->
+                    <div class="mentor-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 border border-gray-200">
+                        <div class="p-6 text-center">
+                            <div class="w-24 h-24 rounded-full bg-blue-100 mx-auto flex items-center justify-center">
+                                <svg class="w-16 h-16 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <h4 class="mt-4 text-xl font-semibold text-gray-800">Anjali Sharma</h4>
+                            <p class="text-blue-800 font-medium">Class of 2012</p>
+                            <p class="mt-2 text-gray-600">Research Scientist, ISRO</p>
+                            <div class="mt-3 flex justify-center space-x-2">
+                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Research</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Aerospace</span>
+                            </div>
+                            <p class="mt-4 text-sm text-gray-600">
+                                Guides students interested in research and higher education.
+                            </p>
+                            <button class="mt-4 px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition text-sm w-full">
+                                Request Mentorship
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Success Stories -->
+            <div class="mt-16">
+                <h3 class="text-2xl font-bold text-gray-800 text-center mb-8">Success Stories</h3>
+                <div class="grid gap-8 md:grid-cols-3">
+                    <!-- Story 1 -->
+                    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-800">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-800">Arjun Reddy</h4>
+                                <p class="text-sm text-gray-600">Class of 2018</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic">
+                            "The mentorship program helped me transition from a developer role to a product manager position. My mentor provided invaluable guidance on building the right skill set and preparing for interviews."
+                        </p>
+                        <div class="mt-4 flex items-center">
+                            <span class="text-sm text-gray-500">Mentored by:</span>
+                            <span class="ml-2 text-sm font-medium text-blue-800">Priya Mehta</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Story 2 -->
+                    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-800">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-800">Neha Gupta</h4>
+                                <p class="text-sm text-gray-600">Class of 2020</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic">
+                            "With my mentor's support, I was able to launch my own startup and secure seed funding. The practical advice and network connections were game-changers for my entrepreneurial journey."
+                        </p>
+                        <div class="mt-4 flex items-center">
+                            <span class="text-sm text-gray-500">Mentored by:</span>
+                            <span class="ml-2 text-sm font-medium text-blue-800">Vikram Singh</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Story 3 -->
+                    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-800">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-blue-800" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div class="ml-4">
+                                <h4 class="text-lg font-semibold text-gray-800">Karthik Menon</h4>
+                                <p class="text-sm text-gray-600">Class of 2019</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic">
+                            "My mentor helped me navigate the complex process of applying for PhD programs abroad. Their guidance on research proposals and interview preparation was crucial to my acceptance at MIT."
+                        </p>
+                        <div class="mt-4 flex items-center">
+                            <span class="text-sm text-gray-500">Mentored by:</span>
+                            <span class="ml-2 text-sm font-medium text-blue-800">Dr. Rajesh Kumar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <a href="#" class="inline-flex items-center px-6 py-3 bg-blue-800 text-white font-medium rounded-md hover:bg-blue-700 transition">
+                    Join the Mentorship Program
+                    <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-800">Resource Library</h2>
+                <p class="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
+                    Access valuable resources shared by alumni and the MLRITM community.
+                </p>
+            </div>
+            
+            <!-- Resource Categories -->
+            <div class="mt-10 flex flex-wrap justify-center gap-4">
+                <button class="px-5 py-2 bg-blue-800 text-white rounded-full hover:bg-blue-700 transition">All Resources</button>
+                <button class="px-5 py-2 bg-white text-gray-700 border border-gray-300 rounded-full hover:bg-gray-50 transition">Career Development</button>
+                <button class="px-5 py-2 bg-white text-gray-700 border border-gray-300 rounded-full hover:bg-gray-50 transition">Technical</button>
+                <button class="px-5 py-2 bg-white text-gray-700 border border-gray-300 rounded-full hover:bg-gray-50 transition">Academic</button>
+                <button class="px-5 py-2 bg-white text-gray-700 border border-gray-300 rounded-full hover:bg-gray-50 transition">Entrepreneurship</button>
+                <button class="px-5 py-2 bg-white text-gray-700 border border-gray-300 rounded-full hover:bg-gray-50 transition">Research</button>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="mt-8 max-w-2xl mx-auto">
+                <div class="relative">
+                    <input type="text" placeholder="Search resources..." class="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 pl-10">
+                    <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+                    </svg>
+                </div>
+            </div>
+            
+            <!-- Resources Grid -->
+            <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <!-- Resource 1 -->
+                <div class="resource-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 border border-gray-200">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Career Development</span>
+                            <span class="text-sm text-gray-500">2 weeks ago</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Resume Building Workshop Materials</h3>
+                        <p class="text-gray-600 mb-4">
+                            Complete guide to creating an impactful resume that stands out to recruiters, with templates and examples.
+                        </p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                            Shared by Priya Sharma (2010)
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 text-gray-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="text-sm text-gray-500">256 views</span>
+                            </div>
+                            <button class="px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition text-sm">
+                                Download PDF
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Resource 2 -->
+                <div class="resource-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 border border-gray-200">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Technical</span>
+                            <span class="text-sm text-gray-500">1 month ago</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Machine Learning Fundamentals</h3>
+                        <p class="text-gray-600 mb-4">
+                            Comprehensive guide to ML algorithms, with practical examples and code snippets for beginners.
+                        </p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                            Shared by Dr. Rajesh Kumar (2005)
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 text-gray-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="text-sm text-gray-500">412 views</span>
+                            </div>
+                            <button class="px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition text-sm">
+                                View Course
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Resource 3 -->
+                <div class="resource-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 border border-gray-200">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Entrepreneurship</span>
+                            <span class="text-sm text-gray-500">3 weeks ago</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Startup Funding Guide</h3>
+                        <p class="text-gray-600 mb-4">
+                            Step-by-step guide to securing funding for your startup, including pitch deck templates and investor contacts.
+                        </p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                            Shared by Vikram Singh (2010)
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 text-gray-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="text-sm text-gray-500">189 views</span>
+                            </div>
+                            <button class="px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition text-sm">
+                                Download Guide
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Resource 4 -->
+                <div class="resource-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 border border-gray-200">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Academic</span>
+                            <span class="text-sm text-gray-500">2 months ago</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Higher Education Abroad Guide</h3>
+                        <p class="text-gray-600 mb-4">
+                            Complete resource for applying to MS and PhD programs abroad, including scholarship information.
+                        </p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                            Shared by Anjali Sharma (2012)
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 text-gray-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="text-sm text-gray-500">325 views</span>
+                            </div>
+                            <button class="px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition text-sm">
+                                Access Guide
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Resource 5 -->
+                <div class="resource-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 border border-gray-200">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Technical</span>
+                            <span class="text-sm text-gray-500">1 week ago</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Web Development Bootcamp</h3>
+                        <p class="text-gray-600 mb-4">
+                            Full-stack web development course materials covering HTML, CSS, JavaScript, React, and Node.js.
+                        </p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                            Shared by Rahul Verma (2008)
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 text-gray-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="text-sm text-gray-500">278 views</span>
+                            </div>
+                            <button class="px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition text-sm">
+                                Start Learning
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Resource 6 -->
+                <div class="resource-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition duration-300 border border-gray-200">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Career Development</span>
+                            <span class="text-sm text-gray-500">3 days ago</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Interview Preparation Kit</h3>
+                        <p class="text-gray-600 mb-4">
+                            Comprehensive guide to technical and behavioral interviews, with practice questions and mock interview videos.
+                        </p>
+                        <div class="flex items-center text-sm text-gray-500 mb-4">
+                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                            </svg>
+                            Shared by Priya Mehta (2008)
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 text-gray-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                                    <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
+                                </svg>
+                                <span class="text-sm text-gray-500">156 views</span>
+                            </div>
+                            <button class="px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition text-sm">
+                                Access Kit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Upload Resource -->
+            <div class="mt-12 bg-blue-50 rounded-lg p-8 max-w-3xl mx-auto">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Share Your Knowledge</h3>
+                <p class="text-gray-600 mb-6">
+                    Have valuable resources to share with the MLRITM community? Upload your materials to help fellow alumni and students.
+                </p>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Resource Title</label>
+                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Enter a descriptive title">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                        <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Select Category</option>
+                            <option value="career">Career Development</option>
+                            <option value="technical">Technical</option>
+                            <option value="academic">Academic</option>
+                            <option value="entrepreneurship">Entrepreneurship</option>
+                            <option value="research">Research</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" rows="3" placeholder="Briefly describe your resource"></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Upload File</label>
+                        <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                            <div class="space-y-1 text-center">
+                                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                    <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <div class="flex text-sm text-gray-600">
+                                    <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-800 hover:text-blue-700 focus-within:outline-none">
+                                        <span>Upload a file</span>
+                                        <input id="file-upload" name="file-upload" type="file" class="sr-only">
+                                    </label>
+                                    <p class="pl-1">or drag and drop</p>
+                                </div>
+                                <p class="text-xs text-gray-500">
+                                    PDF, PPT, DOC, ZIP up to 10MB
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="px-6 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition">
+                            Share Resource
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="mt-12 text-center">
+                <a href="#" class="inline-flex items-center px-6 py-3 bg-blue-800 text-white font-medium rounded-md hover:bg-blue-700 transition">
+                    View All Resources
+                    <svg class="ml-2 w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donation Section -->
+    <section id="donate" class="py-16 bg-blue-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h2 class="text-3xl font-bold text-gray-800">Support MLRITM</h2>
+                <p class="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
+                    Your contributions help fund scholarships, campus development, and other initiatives.
+                </p>
+            </div>
+            
+            <div class="mt-12 grid gap-8 md:grid-cols-2">
+                <!-- Donation Form -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="bg-blue-800 p-6 text-white">
+                        <h3 class="text-2xl font-bold">Make a Donation</h3>
+                        <p class="mt-2 text-blue-100">
+                            Your support makes a difference in the lives of students and the future of MLRITM.
+                        </p>
+                    </div>
+                    <div class="p-6">
+                        <form class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Donation Amount</label>
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <button type="button" class="px-4 py-2 border border-blue-800 text-blue-800 rounded-md hover:bg-blue-50 transition">₹1,000</button>
+                                    <button type="button" class="px-4 py-2 border border-blue-800 text-blue-800 rounded-md hover:bg-blue-50 transition">₹5,000</button>
+                                    <button type="button" class="px-4 py-2 border border-blue-800 text-blue-800 rounded-md hover:bg-blue-50 transition">₹10,000</button>
+                                    <button type="button" class="px-4 py-2 border border-blue-800 text-blue-800 rounded-md hover:bg-blue-50 transition">₹25,000</button>
+                                </div>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <span class="text-gray-500">₹</span>
+                                    </div>
+                                    <input type="text" class="w-full pl-8 px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Other amount">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Donation Purpose</label>
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Select Purpose</option>
+                                    <option value="scholarship">Scholarships</option>
+                                    <option value="infrastructure">Campus Infrastructure</option>
+                                    <option value="research">Research Initiatives</option>
+                                    <option value="events">Alumni Events</option>
+                                    <option value="general">General Fund</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Donation Frequency</label>
+                                <div class="flex space-x-4">
+                                    <div class="flex items-center">
+                                        <input id="one-time" name="donation-type" type="radio" checked class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                                        <label for="one-time" class="ml-2 text-sm text-gray-700">One-time</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input id="monthly" name="donation-type" type="radio" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                                        <label for="monthly" class="ml-2 text-sm text-gray-700">Monthly</label>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input id="annual" name="donation-type" type="radio" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300">
+                                        <label for="annual" class="ml-2 text-sm text-gray-700">Annual</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="pt-4 border-t border-gray-200">
+                                <h4 class="text-lg font-medium text-gray-800 mb-4">Personal Information</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                                        <input type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                        <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94994192a574ff61',t:'MTc0ODg5MTQ4Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>

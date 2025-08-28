@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLRITM Alumni Association</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for body and hero pattern */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+        }
+        .hero-pattern {
+            background-color: #1e40af;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V..."); /* Add your pattern */
+            background-size: 60px 60px;
+        }
+        /* Message box styles */
+        #message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: 500;
+            z-index: 1000;
+            display: none; /* Hidden by default */
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        #message-box.show {
+            opacity: 1;
+        }
+        #message-box.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        #message-box.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        #message-box.info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 999; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="message-box"></div>
+
+    <div class="hero-pattern min-h-screen flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">Welcome to MLRITM Alumni</h1>
+            <p class="text-gray-600 mb-6">Connect with your fellow alumni and relive college memories.</p>
+
+            <div class="space-y-4">
+                <button id="login-button" class="w-full bg-blue-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:bg-blue-700 transition duration-300">
+                    Login
+                </button>
+                <button id="register-button" class="w-full bg-green-600 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:bg-green-700 transition duration-300">
+                    Register
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="login-modal">&times;</span>
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Login to your Account</h2>
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label for="login-email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                    <input type="email" id="login-email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your email" required>
+                </div>
+                <div>
+                    <label for="login-password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                    <input type="password" id="login-password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                    Login
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="register-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" data-modal="register-modal">&times;</span>
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Create a New Account</h2>
+            <form id="register-form" class="space-y-4">
+                <div>
+                    <label for="full-name" class="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
+                    <input type="text" id="full-name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Your Full Name" required>
+                </div>
+                <div>
+                    <label for="register-email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                    <input type="email" id="register-email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Your Email Address" required>
+                </div>
+                <div>
+                    <label for="register-password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                    <input type="password" id="register-password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Create Password" required>
+                </div>
+                <div>
+                    <label for="confirm-password" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
+                    <input type="password" id="confirm-password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" placeholder="Confirm Password" required>
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" id="terms" class="form-checkbox h-4 w-4 text-blue-600 rounded" required>
+                    <label for="terms" class="ml-2 text-gray-700 text-sm">I agree to the <a href="#" class="text-blue-600 hover:underline">Terms of Service</a> and <a href="#" class="text-blue-600 hover:underline">Privacy Policy</a>.</label>
+                </div>
+                <button type="submit" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-green-700 transition duration-300">
+                    Register
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const loginModal = document.getElementById('login-modal');
+        const registerModal = document.getElementById('register-modal');
+        const messageBox = document.getElementById('message-box');
+
+        function openModal(modal) {
+            modal.style.display = 'flex';
+        }
+
+        function closeModal(modal) {
+            modal.style.display = 'none';
+        }
+
+        function showMessage(message, type) {
+            messageBox.textContent = message;
+            messageBox.className = ''; // Clear existing classes
+            messageBox.classList.add('show', type); // Add 'show' class to make it visible
+
+            setTimeout(() => {
+                messageBox.classList.remove('show'); // Hide after 3 seconds
+            }, 3000);
+        }
+
+        // Event Listeners for buttons and modals
+        document.getElementById('login-button').addEventListener('click', () => openModal(loginModal));
+        document.getElementById('register-button').addEventListener('click', () => openModal(registerModal));
+
+        document.querySelectorAll('.close-button').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const modalId = event.target.dataset.modal;
+                closeModal(document.getElementById(modalId));
+            });
+        });
+
+        // Close modal when clicking outside of the content
+        window.addEventListener('click', (event) => {
+            if (event.target === loginModal) {
+                closeModal(loginModal);
+            }
+            if (event.target === registerModal) {
+                closeModal(registerModal);
+            }
+        });
+
+        // Handle Register Form Submission
+        const registerForm = document.getElementById('register-form');
+        if (registerForm) {
+            registerForm.addEventListener('submit', async (event) => {
+                event.preventDefault(); // Prevent default form submission
+
+                const fullName = document.getElementById('full-name').value.trim();
+                const regEmail = document.getElementById('register-email').value.trim();
+                const regPassword = document.getElementById('register-password').value.trim();
+                const confirmPassword = document.getElementById('confirm-password').value.trim();
+                const termsAccepted = document.getElementById('terms').checked;
+
+                if (fullName === '' || regEmail === '' || regPassword === '' || confirmPassword === '') {
+                    showMessage('Please fill in all required fields.', 'error');
+                    return;
+                }
+                if (regPassword !== confirmPassword) {
+                    showMessage('Passwords do not match.', 'error');
+                    return;
+                }
+                if (!termsAccepted) {
+                    showMessage('You must agree to the Terms of Service and Privacy Policy.', 'error');
+                    return;
+                }
+
+                showMessage('Registering...', 'info');
+
+                try {
+                    // Start of Register Fetch API call
+                    const response = await fetch('http://localhost:3000/api/register', { // **Backend endpoint**
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ fullName, email: regEmail, password: regPassword })
+                    });
+                    // End of Register Fetch API call
+
+                    const data = await response.json();
+
+                    if (response.ok) { // Status codes 200-299
+                        showMessage('Registration successful! You can now log in.', 'success');
+                        closeModal(registerModal);
+                        openModal(loginModal); // Automatically switch to login after registration
+                    } else {
+                        showMessage(data.message || 'Registration failed. Please try again.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Network error during registration:', error);
+                    showMessage('Network error. Please check your connection or server.', 'error');
+                }
+            });
+        }
+
+        // Handle Login Form Submission
+        const loginForm = document.getElementById('login-form');
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (event) => {
+                event.preventDefault(); // Prevent default form submission
+
+                const logEmail = document.getElementById('login-email').value.trim();
+                const logPassword = document.getElementById('login-password').value.trim();
+
+                if (logEmail === '' || logPassword === '') {
+                    showMessage('Please enter both email and password.', 'error');
+                    return;
+                }
+
+                showMessage('Logging in...', 'info');
+
+                try {
+                    // Start of Login Fetch API call
+                    const response = await fetch('http://localhost:3000/api/login', { // **Backend endpoint**
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email: logEmail, password: logPassword })
+                    });
+                    // End of Login Fetch API call
+
+                    const data = await response.json();
+
+                    if (response.ok) { // Status codes 200-299
+                        showMessage('Login successful! Redirecting...', 'success');
+                        closeModal(loginModal);
+                        // In a real application, you would now redirect the user to a protected dashboard page
+                        // window.location.href = '/dashboard.html'; // Example redirection
+                    } else {
+                        showMessage(data.message || 'Login failed. Invalid credentials.', 'error');
+                    }
+                } catch (error) {
+                    console.error('Network error during login:', error);
+                    showMessage('Network error. Please check your connection or server.', 'error');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
